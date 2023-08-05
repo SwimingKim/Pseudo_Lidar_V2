@@ -1,6 +1,12 @@
 configargparse==1.
 opencv-python
-scipy
+scipy==1.2.0
 tensorboardx
 tqdm
 pillow==6.2.0
+protobuf==4.21
+torch==1.5.0
+torchvision==0.6.0
+configargparse
+tensorboardX
+scikit-learn
