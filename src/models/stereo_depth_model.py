@@ -118,11 +118,11 @@ class SDNet(nn.Module):
         x = x.view(B, -1, C, D)
         # mesh grid
         xx = (calib / (self.down * 4.))[:, None] / torch.arange(1, 1 + self.maxdepth // self.down,
-                                                                device='cuda').float()[None, :]
+                                                                device='cpu').float()[None, :]
         new_D = self.maxdepth // self.down
         xx = xx.view(B, 1, new_D).repeat(1, C, 1)
         xx = xx.view(B, C, new_D, 1)
-        yy = torch.arange(0, C, device='cuda').view(-1, 1).repeat(1, new_D).float()
+        yy = torch.arange(0, C, device='cpu').view(-1, 1).repeat(1, new_D).float()
         yy = yy.view(1, C, new_D, 1).repeat(B, 1, 1, 1)
         grid = torch.cat((xx, yy), -1).float()
 
@@ -145,10 +145,8 @@ class SDNet(nn.Module):
         targetimg_fea = self.feature_extraction(right)
 
         # matching
-        cost = Variable(
-            torch.cuda.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1] * 2, self.maxdisp // 4,
-                                   refimg_fea.size()[2],
-                                   refimg_fea.size()[3]).zero_())
+        cost = Variable(torch.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1] * 2, self.maxdisp // 4, refimg_fea.size()[2], refimg_fea.size()[3]).zero_())
+        # cost = Variable(torch.cuda.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1] * 2, self.maxdisp // 4, refimg_fea.size()[2], refimg_fea.size()[3]).zero_())
 
         for i in range(self.maxdisp // 4):
             if i > 0:

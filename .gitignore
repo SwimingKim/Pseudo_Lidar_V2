@@ -107,3 +107,7 @@ venv.bak/
 .vscode
 
 KITTI
+
+*.local
+*.npy
+*.tar

@@ -48,16 +48,16 @@ class matchshifted(nn.Module):
 
     def forward(self, left, right, shift):
         batch, filters, height, width = left.size()
-        shifted_left  = F.pad(torch.index_select(left,  3, Variable(torch.LongTensor([i for i in range(shift,width)])).cuda()),(shift,0,0,0))
-        shifted_right = F.pad(torch.index_select(right, 3, Variable(torch.LongTensor([i for i in range(width-shift)])).cuda()),(shift,0,0,0))
+        shifted_left  = F.pad(torch.index_select(left,  3, Variable(torch.LongTensor([i for i in range(shift,width)])).cpu()),(shift,0,0,0))
+        shifted_right = F.pad(torch.index_select(right, 3, Variable(torch.LongTensor([i for i in range(width-shift)])).cpu()),(shift,0,0,0))
         out = torch.cat((shifted_left,shifted_right),1).view(batch,filters*2,1,height,width)
         return out
 
 class disparityregression(nn.Module):
     def __init__(self, maxdisp):
         super(disparityregression, self).__init__()
-        # self.disp = Variable(torch.Tensor(np.reshape(np.array(range(maxdisp)),[1,maxdisp,1,1])).cuda(), requires_grad=False)
-        self.disp = torch.arange(maxdisp, device='cuda', requires_grad=False).float()[None, :, None, None]
+        # self.disp = Variable(torch.Tensor(np.reshape(np.array(range(maxdisp)),[1,maxdisp,1,1])).cpu(), requires_grad=False)
+        self.disp = torch.arange(maxdisp, device='cpu', requires_grad=False).float()[None, :, None, None]
 
     def forward(self, x):
         # disp = self.disp.repeat(x.size()[0],1,x.size()[2],x.size()[3])
@@ -67,8 +67,8 @@ class disparityregression(nn.Module):
 class disparityregression_std(nn.Module):
     def __init__(self, maxdisp):
         super(disparityregression_std, self).__init__()
-        # self.disp = Variable(torch.Tensor(np.reshape(np.array(range(maxdisp)),[1,maxdisp,1,1])).cuda(), requires_grad=False)
-        self.disp = torch.arange(maxdisp, device='cuda', requires_grad=False).float()[None, :, None, None]
+        # self.disp = Variable(torch.Tensor(np.reshape(np.array(range(maxdisp)),[1,maxdisp,1,1])).cpu(), requires_grad=False)
+        self.disp = torch.arange(maxdisp, device='cpu', requires_grad=False).float()[None, :, None, None]
 
     def forward(self, x, predict):
         disp = (self.disp - predict[:,None,:,:])**2

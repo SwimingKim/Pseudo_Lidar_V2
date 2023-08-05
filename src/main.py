@@ -141,7 +141,8 @@ def main():
 
     # Number of parameters
     log.info('Number of model parameters: {}'.format(sum([p.data.nelement() for p in model.parameters()])))
-    model = nn.DataParallel(model).cuda()
+    model = nn.DataParallel(model)
+    # model = nn.DataParallel(model).cuda()
     torch.backends.cudnn.benchmark = True
 
     # Optimizer
@@ -159,7 +160,8 @@ def main():
     if args.resume:
         if os.path.isfile(args.resume):
             log.info("=> loading checkpoint '{}'".format(args.resume))
-            checkpoint = torch.load(args.resume)
+            checkpoint = torch.load(args.resume, map_location=torch.device("cpu"))
+            # checkpoint = torch.load(args.resume)
             model.load_state_dict(checkpoint['state_dict'])
             args.start_epoch = checkpoint['epoch']
             optimizer.load_state_dict(checkpoint['optimizer'])
@@ -245,7 +247,7 @@ def train(imgL, imgR, depth, calib, metric_log, optimizer, model):
     model.train()
     calib = calib.float()
 
-    imgL, imgR, depth, calib = imgL.cuda(), imgR.cuda(), depth.cuda(), calib.cuda()
+    imgL, imgR, depth, calib = imgL.cpu(), imgR.cpu(), depth.cpu(), calib.cpu()
 
     # ---------
     mask = (depth >= 1) * (depth <= 80)
@@ -273,7 +275,7 @@ def train(imgL, imgR, depth, calib, metric_log, optimizer, model):
 
 def inference(imgL, imgR, calib, model):
     model.eval()
-    imgL, imgR, calib = imgL.cuda(), imgR.cuda(), calib.float().cuda()
+    imgL, imgR, calib = imgL.cpu(), imgR.cpu(), calib.float().cpu()
 
     with torch.no_grad():
         output = model(imgL, imgR, calib)
@@ -287,7 +289,7 @@ def inference(imgL, imgR, calib, model):
 def test(imgL, imgR, depth, calib, metric_log, model):
     model.eval()
     calib = calib.float()
-    imgL, imgR, calib, depth = imgL.cuda(), imgR.cuda(), calib.cuda(), depth.cuda()
+    imgL, imgR, calib, depth = imgL.cpu(), imgR.cpu(), calib.cpu(), depth.cpu()
 
     mask = (depth >= 1) * (depth <= 80)
     mask.detach_()
@@ -301,7 +303,7 @@ def test(imgL, imgR, depth, calib, metric_log, model):
 
         metric_log.calculate(depth, output3, loss=loss.item())
 
-    torch.cuda.empty_cache()
+    # torch.cuda.empty_cache()
     return
 
 

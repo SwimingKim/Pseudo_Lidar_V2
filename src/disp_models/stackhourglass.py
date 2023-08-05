@@ -114,7 +114,7 @@ class PSMNet(nn.Module):
 
         # matching
         cost = Variable(
-            torch.cuda.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1] * 2, self.maxdisp // 4, refimg_fea.size()[2],
+            torch.cpu.FloatTensor(refimg_fea.size()[0], refimg_fea.size()[1] * 2, self.maxdisp // 4, refimg_fea.size()[2],
                               refimg_fea.size()[3]).zero_())
 
         for i in range(self.maxdisp // 4):
