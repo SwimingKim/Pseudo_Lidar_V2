@@ -11,7 +11,13 @@ def read_calib_file(filepath):
         for line in f.readlines():
             line = line.rstrip()
             if len(line) == 0: continue
-            key, value = line.split(':', 1)
+
+            if ":" in line:
+                key, value = line.split(':', 1)
+            else:
+                key, value = line.split(' ', 1)
+
+
             try:
                 data[key] = np.array([float(x) for x in value.split()])
             except ValueError:
