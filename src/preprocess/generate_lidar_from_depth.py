@@ -43,7 +43,7 @@ if __name__ == '__main__':
         calib = kitti_util.Calibration(calib_file)
         depth_map = np.load(args.depth_dir + '/' + fn)
         if len(depth_map.shape) > 2:
-            depth_map = depth_map.reshape(192, 640)
+            depth_map = depth_map.reshape(depth_map.shape[2], depth_map.shape[3])
         print(depth_map.shape)
         lidar = project_disp_to_depth(calib, depth_map, args.max_high)
         # pad 1 in the indensity dimension
