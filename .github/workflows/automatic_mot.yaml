@@ -16,6 +16,6 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: |
             source /Users/suyoung/miniforge3/etc/profile.d/conda.sh
-            conda activate py37
-            cd /Users/suyoung/Documents/dev/programmers/ad-5-final-project-team5/AB3DMOT/
-            ./commands/1_run_main.sh
+            conda activate pseudo
+            cd /Users/suyoung/Documents/dev/programmers/Pseudo_Lidar_V2
+            ./commands/10_fake_process.sh
