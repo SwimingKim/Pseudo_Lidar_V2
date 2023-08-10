@@ -12,13 +12,8 @@ cmd="ln -sf $kitti_path/tracking/$split/calib/`printf %04d $sequence`.txt $kitti
 echo $cmd
 eval $cmd
 
-cmd="ln -sf $kitti_path/tracking/$split/image_02/`printf %04d $sequence` $kitti_path/tracking/$split/image_02/$new_sequence"
-echo $cmd
-eval $cmd
-
-cmd="ln -sf $kitti_path/tracking/$split/image_03/`printf %04d $sequence` $kitti_path/tracking/$split/image_03/$new_sequence"
-echo $cmd
-eval $cmd
+cmd="ln -sf $kitti_path/tracking/$split/image_02/`printf %04d $sequence` $kitti_path/tracking/$split"
+mv $kitti_path/tracking/$split/`printf %04d $sequence` $kitti_path/tracking/$split/image_02/`printf %04d $sequence`
 
 cmd="ln -sf $kitti_path/tracking/$split/label_02/`printf %04d $sequence`.txt $kitti_path/tracking/$split/label_02/$new_sequence.txt"
 echo $cmd
