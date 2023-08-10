@@ -108,5 +108,8 @@ venv.bak/
 
 results/
 
-*.pth
 KITTI
+*.local
+*.npy
+*.tar
+*.pth
