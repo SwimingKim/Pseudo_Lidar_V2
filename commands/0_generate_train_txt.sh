@@ -1,4 +1,5 @@
-source=/Users/suyoung/Documents/share_ubuntu/KITTI/xycar/training
+source=KITTI/new_object/training
+rm -rf results/sdn_kitti_train_set/depth_maps
 rm -rf $source/depth_map
 rm -rf $source/pseudo_lidar_train
 rm -rf $source/pseudo_lidar_train_planes
