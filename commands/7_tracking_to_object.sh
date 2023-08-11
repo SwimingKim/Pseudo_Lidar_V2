@@ -1,6 +1,6 @@
 source_folder=$(yq -r '.source_path' commands/runner.yaml)
 kitti_path=$(yq -r '.kitti_path' commands/runner.yaml)
-tracking_path=($kitti_path/tracking)
+tracking_path=$kitti_path/tracking
 split=training
 sequence=$(yq -r '.sequence' commands/runner.yaml)
 echo "sequence is $sequence"

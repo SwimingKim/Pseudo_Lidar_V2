@@ -1,4 +1,4 @@
 source_path: f_object
-sequence: 15
-max_count: 3
-kitti_path: /Users/suyoung/Documents/share_ubuntu/KITTI
+sequence: 1
+max_count: -1
+kitti_path: /home/ubuntu/dev/KITTI
